@@ -1,1 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Tâches</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        
+        .b,
+        .c {
+            margin-left: 30px;
+        }
+        
+        .b {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            margin-bottom: 10px;
+            margin-top: 20px;
+        }
+        
+        .tasktitle {
+            font-weight: bold;
+        }
+        
+        .task {
+            border-bottom: 1px solid grey;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h1>Gestion des Tâches</h1>
+        <p class="c">Nombre total de tâches : {{ nbrtotalTaches }}</p>
+        <div class="b">
+            <button @click="affichagetaches = 'toutes'">Toutes</button>
+            <button @click="affichagetaches = 'aFaire'">À faire</button>
+            <button @click="affichagetaches = 'terminees'">Terminées</button>
+        </div>
+
+        <div v-for="task in tasks">
+            <div v-if="(!task.completed && affichagetaches=='aFaire') || (task.completed && affichagetaches=='terminees') || affichagetaches=='toutes'" class="task">
+                <p class="tasktitle">{{ task.id }}. {{ task.title }}</p>
+                <p>{{ task.description }}</p>
+                <button v-show="!task.completed" @click="termine(task)">Marquer la tâche comme terminée </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    tasks: [],
+                    affichagetaches: 'toutes',
+                };
+            },
+            methods: {
+                termine(task) {
+                    task.completed = true;
+                },
+
+                async chargerTaches() { // on charge les données (dans data(), a l'interieur de tasks=[]) du fichier JSON tasks.json 
+                    try {
+                        const response = await fetch("tasks.json");
+                        this.tasks = await response.json();
+                    } catch (error) {
+                        console.error("Erreur lors du chargement des tâches :", error);
+                    }
+                }
+            },
+            computed: {
+                nbrtotalTaches() {
+                    return this.tasks.length
+                },
+            },
+            mounted() {
+                this.chargerTaches(); // charger les taches
+            }
+        });
+
+        app.mount('#app');
+    </script>
+</body>
+
+</html>
