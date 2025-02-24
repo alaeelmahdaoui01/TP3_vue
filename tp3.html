@@ -10,29 +10,50 @@
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            background-color: #f4f4f4;
         }
         
-        .b,
-        .c {
-            margin-left: 30px;
+        h1 {
+            margin-left: 10px;
+            color: #333;
         }
         
         .b {
             display: flex;
             flex-direction: row;
             gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .b,.c{margin-left: 30px;}
+        
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #125785;
+            color: white;
+        }
+        
+        button:hover {
+            opacity: 0.8;
+        }
+        
+        .task {
+            padding: 15px;
+            border-bottom: 1px solid grey;
+            border-radius: 5px;
             margin-bottom: 10px;
-            margin-top: 20px;
+            text-align: left;
         }
         
         .tasktitle {
             font-weight: bold;
+            color: #2c3e50;
         }
         
-        .task {
-            border-bottom: 1px solid grey;
-            padding: 20px;
-        }
+        
     </style>
 </head>
 
